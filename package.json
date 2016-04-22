@@ -1,0 +1,30 @@
+{
+  "name": "circle2-lowdeps",
+  "version": "1.0.0",
+  "description": "fork of circle2 with only `intersectCircle()` and `containsPoint()` method and less dependencies",
+  "keywords": [
+    "2d",
+    "circle"
+  ],
+  "main": "circle2.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fuzzyma/circle2-lowdeps.git"
+  },
+  "author": "Ulrich-Matthias Schäfer <ulima.ums@googlemail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fuzzyma/circle2-lowdeps/issues"
+  },
+  "devDependencies": {
+    "should": "^8.3.1",
+    "standard": "^6.0.8"
+  },
+  "scripts": {
+    "test": "mocha test/test.js -R spec",
+    "lint": "standard"
+  },
+  "dependencies": {
+    "vec2": "~1.5.0"
+  }
+}
