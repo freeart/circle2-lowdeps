@@ -69,7 +69,7 @@ describe('intersectCircle()', function () {
   it('returns [vec2] when intersects at one point', function () {
     var c = Circle(Vec2(0, 0), 10)
     var c2 = Circle(Vec2(20, 0), 10)
-    c.intersectCircle(c2).equal(10, 0).should.be.true
+    c.intersectCircle(c2).should.eql([Vec2(10, 0)])
   })
   it('returns [vec2, vec2] when intersects at two points', function () {
     var c = Circle(Vec2(0, 0), 10)

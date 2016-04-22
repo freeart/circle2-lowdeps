@@ -1,6 +1,6 @@
 {
   "name": "circle2-lowdeps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "fork of circle2 with only `intersectCircle()` and `containsPoint()` method and less dependencies",
   "keywords": [
     "2d",
