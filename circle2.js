@@ -14,11 +14,9 @@ function Circle (position, radius) {
   }
 
   this.radius = Vec2.clean(radius || 1)
-  this._radiusSquared = this.radius * this.radius
 }
 
 Circle.prototype.radius = 1
-Circle.prototype._radiusSquared = 1
 
 Circle.prototype.position = null
 
@@ -29,7 +27,7 @@ Circle.prototype.containsPoint = function (vec) {
     vec = Vec2(vec)
   }
 
-  return this.position.subtract(vec, true).lengthSquared() <= this._radiusSquared
+  return Vec2.clean(this.position.distance(vec)) <= this.radius
 }
 
 Circle.prototype.intersectCircle = function (circle) {
@@ -50,17 +48,17 @@ Circle.prototype.intersectCircle = function (circle) {
     }
   }
 
-  var d2 = p1.subtract(p2, true).lengthSquared()
-  var rsquared = (r1 + r2) * (r1 + r2)
-  if (d2 > rsquared) {
-    return false
+  var d = p1.distance(p2)
+
+  // check if both circles to far away or contained in eachother
+  if (d < r1 - r2) return false
+  if (d > r1 + r2) return false
 
   // single intersection
-  } else if (d2 === rsquared) {
+  if (d === r1 + r2) {
     return [p1.subtract(p2, true).divide(2).add(p2)]
   }
 
-  var d = Math.sqrt(d2)
   var a = (r1 * r1 - r2 * r2 + d * d) / (2 * d)
   var h = Math.sqrt(r1 * r1 - a * a)
   var x0 = p1.x + a * (p2.x - p1.x) / d
