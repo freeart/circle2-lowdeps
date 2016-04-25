@@ -27,7 +27,8 @@ Circle.prototype.containsPoint = function (vec) {
     vec = Vec2(vec)
   }
 
-  return Vec2.clean(this.position.distance(vec)) <= this.radius
+  // return Vec2.clean(this.position.distance(vec)) <= this.radius
+  return Math.round(this.position.distance(vec) * 10000000) / 10000000 <= this.radius // only use precision of 7 for comparison
 }
 
 Circle.prototype.intersectCircle = function (circle) {
