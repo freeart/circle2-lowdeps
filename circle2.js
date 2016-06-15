@@ -12,6 +12,10 @@ function geoDistance(point1, point2) {
     return (d * 1000);
 }
 
+function deg2rad(deg) {
+    return deg * (Math.PI / 180)
+}
+
 function Circle (position, radius) {
   if (!(this instanceof Circle)) {
     return new Circle(position, radius)
