@@ -1,34 +1,32 @@
 'use strict'
 
-var Vec2 = require('vec2')
+function geoDistance(point1, point2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(point1.latitude - point2.latitude);  // deg2rad below
+    var dLon = deg2rad(point1.longitude - point2.longitude);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(point2.latitude)) * Math.cos(deg2rad(point1.latitude)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return (d * 1000);
+}
 
 function Circle (position, radius) {
   if (!(this instanceof Circle)) {
     return new Circle(position, radius)
   }
 
-  if (Array.isArray(position)) {
-    this.position = new Vec2(position[0], position[1])
-  } else {
-    this.position = position ? new Vec2(position.x, position.y) : new Vec2(0, 0)
-  }
-
-  this.radius = Vec2.clean(radius || 1)
+  this.position = position
+  this.radius = radius
 }
 
 Circle.prototype.radius = 1
 
 Circle.prototype.position = null
 
-Circle.prototype.containsPoint = function (vec) {
-  if (Array.isArray(vec)) {
-    vec = Vec2.fromArray(vec)
-  } else {
-    vec = Vec2(vec)
-  }
-
-  // return Vec2.clean(this.position.distance(vec)) <= this.radius
-  return Math.round(this.position.distance(vec) * 10000000) / 10000000 <= this.radius // only use precision of 7 for comparison
+Circle.prototype.containsPoint = function (point) {
+  return geoDistance(this.position, point) <= this.radius
 }
 
 Circle.prototype.intersectCircle = function (circle) {
@@ -37,7 +35,7 @@ Circle.prototype.intersectCircle = function (circle) {
   var r1 = this.radius
   var r2 = circle.radius
 
-  if (p1.equal(p2)) {
+  if (p1.latitude == p2.latitude && p1.longitude == p2.longitude) {
     // identical circles
     if (r1 === r2) {
       return []
@@ -49,16 +47,13 @@ Circle.prototype.intersectCircle = function (circle) {
     }
   }
 
-  var d = p1.distance(p2)
+  var d = geoDistance(p1, p2)
 
   // check if both circles to far away or contained in eachother
   if (d < r1 - r2) return false
   if (d > r1 + r2) return false
 
-  // single intersection
-  if (d === r1 + r2) {
-    return [p1.subtract(p2, true).divide(2).add(p2)]
-  }
+  //TODO: single intersection
 
   var a = (r1 * r1 - r2 * r2 + d * d) / (2 * d)
   var h = Math.sqrt(r1 * r1 - a * a)
@@ -68,8 +63,8 @@ Circle.prototype.intersectCircle = function (circle) {
   var ry = -(p2.x - p1.x) * (h / d)
 
   return [
-    new Vec2(x0 + rx, y0 - ry),
-    new Vec2(x0 - rx, y0 + ry)
+    {latitude: x0 + rx, longitude: y0 - ry},
+    {latitude: x0 - rx, longitude: y0 + ry}
   ]
 }
 
