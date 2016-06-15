@@ -9,12 +9,12 @@
   "main": "circle2.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/fuzzyma/circle2-lowdeps.git"
+    "url": "git://github.com/freeart/circle2-lowdeps.git"
   },
   "author": "Ulrich-Matthias Schäfer <ulima.ums@googlemail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fuzzyma/circle2-lowdeps/issues"
+    "url": "https://github.com/freeart/circle2-lowdeps/issues"
   },
   "devDependencies": {
     "should": "^8.3.1",
@@ -25,6 +25,6 @@
     "lint": "standard"
   },
   "dependencies": {
-    "vec2": "~1.5.0"
+
   }
 }
